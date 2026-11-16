@@ -1,0 +1,17 @@
+politicas:
+  - id: "GOV-API-001"
+    descripcion: "Acceso HTTPS al portal solo desde el origen autorizado"
+    servicio: "servicio-https"
+    protocolo: "tcp"
+    puerto: 443
+    origenes_autorizados:
+      - "10.10.10.10/32"
+    accion_por_defecto: "denegar"
+
+  - id: "GOV-ICMP-002"
+    descripcion: "Control de descubrimiento ICMP hacia el portal"
+    servicio: "servicio-https"
+    protocolo: "icmp"
+    origenes_autorizados:
+      - "10.10.10.10/32"
+    accion_por_defecto: "denegar"

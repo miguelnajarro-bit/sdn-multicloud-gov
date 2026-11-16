@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.pem
+*.key
+*.crt
+*.bak
+.env
+.venv/
+venv/
+logs/azure_nsg_estado.json

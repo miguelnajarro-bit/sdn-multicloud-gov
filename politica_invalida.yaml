@@ -1,0 +1,9 @@
+politicas:
+  - id: "GOV-BAD-001"
+    descripcion: "Exposicion total prohibida"
+    servicio: "servicio-https"
+    protocolo: "tcp"
+    puerto: 443
+    origenes_autorizados:
+      - "0.0.0.0/0"
+    accion_por_defecto: "denegar"

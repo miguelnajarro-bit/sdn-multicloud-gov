@@ -1,0 +1,26 @@
+sdn:
+  habilitado: true
+  controlador_url: http://172.16.10.20:8181/onos/v1
+  usuario: onos
+  clave_env: ONOS_CLAVE
+  device_leaf2: of:000032a4da3ea14b
+  puerto_salida_https: '3'
+  prioridad_base: 40000
+  app_id: gov.motor
+aws:
+  habilitado: true
+  region: us-east-2
+  security_group_id: sg-047ec1b7ee5f048de
+  network_acl_id: acl-0b266a240decc25da
+  puertos_admin_protegidos:
+  - 22
+  nacl_rango_inicio: 100
+  nacl_rango_fin: 299
+azure:
+  habilitado: true
+  modo: simulado
+  prioridad_inicio: 100
+  archivo_estado: logs/azure_nsg_estado.json
+activos:
+  servicio-https:
+    sdn_ip: 10.10.10.40
