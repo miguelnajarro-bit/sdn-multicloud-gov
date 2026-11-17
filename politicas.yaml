@@ -6,6 +6,8 @@ politicas:
     puerto: 443
     origenes_autorizados:
       - "10.10.10.10/32"
+      - "16.59.110.69/32"
+      - "179.6.7.185/32"
     accion_por_defecto: "denegar"
 
   - id: "GOV-ICMP-002"
@@ -14,4 +16,6 @@ politicas:
     protocolo: "icmp"
     origenes_autorizados:
       - "10.10.10.10/32"
+      - "16.59.110.69/32"
+      - "179.6.7.185/32"
     accion_por_defecto: "denegar"

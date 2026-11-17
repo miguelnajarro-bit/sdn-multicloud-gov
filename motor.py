@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 import yaml
 from sdn import AdaptadorONOS, ErrorControladorSDN, PROTOCOLOS_IP
 from aws_adaptadores import AdaptadorAWSSG, AdaptadorAWSNACL, ErrorDominioAWS
-from azure_adaptador import AdaptadorAzureNSGSimulado
+from azure_adaptador import AdaptadorAzureNSG, AdaptadorAzureNSGSimulado
 
 RUTA_LOG = os.path.join("logs", "auditoria.jsonl")
 
@@ -96,7 +96,7 @@ def construir_adaptadores(inv: dict, seleccion: str) -> list:
         adaptadores.append(AdaptadorAWSSG(inv["aws"]))
         adaptadores.append(AdaptadorAWSNACL(inv["aws"]))
     if seleccion in ("azure", "todos") and inv.get("azure", {}).get("habilitado", False):
-        adaptadores.append(AdaptadorAzureNSGSimulado(inv["azure"]))
+        adaptadores.append(AdaptadorAzureNSG(inv["azure"]) if inv["azure"].get("modo") == "real" else AdaptadorAzureNSGSimulado(inv["azure"]))
     if not adaptadores:
         raise ValueError(f"No hay dominios habilitados en inventario.yaml para la selección '{seleccion}'.")
     return adaptadores

@@ -13,12 +13,16 @@ aws:
   security_group_id: sg-047ec1b7ee5f048de
   network_acl_id: acl-0b266a240decc25da
   puertos_admin_protegidos:
-  - 22
+    - 22
   nacl_rango_inicio: 100
   nacl_rango_fin: 299
 azure:
   habilitado: true
-  modo: simulado
+  modo: real
+  resource_group: rg-multicloud-gov
+  nsg_name: nsg-portal-azure
+  puertos_admin_protegidos:
+    - 22
   prioridad_inicio: 100
   archivo_estado: logs/azure_nsg_estado.json
 activos:
