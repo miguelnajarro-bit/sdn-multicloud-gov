@@ -118,7 +118,7 @@ def index():
         tema=TEMA,
         hostname=socket.gethostname(),
         client_ip=request.remote_addr,
-        timestamp=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+        timestamp=datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
     )
 
 @app.route("/salud")

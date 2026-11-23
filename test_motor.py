@@ -59,27 +59,35 @@ class TestMotorSDN(unittest.TestCase):
             }]
         }
         resueltas = validar_y_resolver_politicas(self.inv, pols)
-        # Simula respuesta de ONOS con 0x800 en lugar de 0x0800
-        estado_simulado = [
+        # Simula respuesta JSON cruda de ONOS con 0x800 compacto en lugar de 0x0800
+        resp_cruda = {"flows": [
             {
-                "flow_id": "1",
-                "priority": 40100,
-                "state": "ADDED",
-                "accion": "ALLOW",
-                "firma": (40100, "ALLOW", (('ETH_TYPE', '0x800'), ('IPV4_DST', '10.10.10.40/32'), ('IPV4_SRC', '10.10.10.10/32'), ('IP_PROTO', '6'), ('TCP_DST', '443'))),
+                "id": "1", "appId": "gov.motor", "priority": 40100, "state": "ADDED",
+                "treatment": {"instructions": [{"type": "OUTPUT", "port": "3"}]},
+                "selector": {"criteria": [
+                    {"type": "ETH_TYPE", "ethType": "0x800"},
+                    {"type": "IPV4_SRC", "ip": "10.10.10.10/32"},
+                    {"type": "IPV4_DST", "ip": "10.10.10.40/32"},
+                    {"type": "IP_PROTO", "protocol": 6},
+                    {"type": "TCP_DST", "tcpPort": 443},
+                ]},
             },
             {
-                "flow_id": "2",
-                "priority": 40000,
-                "state": "ADDED",
-                "accion": "DENY",
-                "firma": (40000, "DENY", (('ETH_TYPE', '0x800'), ('IPV4_DST', '10.10.10.40/32'), ('IP_PROTO', '6'), ('TCP_DST', '443'))),
+                "id": "2", "appId": "gov.motor", "priority": 40000, "state": "ADDED",
+                "treatment": {"instructions": []},
+                "selector": {"criteria": [
+                    {"type": "ETH_TYPE", "ethType": "0x800"},
+                    {"type": "IPV4_DST", "ip": "10.10.10.40/32"},
+                    {"type": "IP_PROTO", "protocol": 6},
+                    {"type": "TCP_DST", "tcpPort": 443},
+                ]},
             },
-        ]
-        with patch.object(self.adp, "consultar_estado", return_value=estado_simulado):
+        ]}
+        with patch.object(self.adp, "_peticion") as mock_req:
+            mock_req.return_value.json.return_value = resp_cruda
             plan = self.adp.generar_plan(resueltas)
-            self.assertFalse(plan["requiere_cambios"])
-            self.assertEqual(len(plan["mantener"]), 2)
+        self.assertFalse(plan["requiere_cambios"])
+        self.assertEqual(len(plan["mantener"]), 2)
 
     def test_compilacion_bandas_prioridad(self):
         pols = {
